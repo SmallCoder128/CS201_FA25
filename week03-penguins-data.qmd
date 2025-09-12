@@ -70,7 +70,9 @@ Note that all of these methods of reading data in to R are *reproducible* meanin
     -   Make sure to create a descriptive object name
 
 ```{r, message=FALSE}
+url_gentoo <- "https://pasta.lternet.edu/package/data/eml/knb-lter-pal/220/3/e03b43c924f226486f2f0ab6709d2381"
 
+gentoo_data <- read.csv(url_gentoo)
 
 ```
 
@@ -121,6 +123,7 @@ Awesome, now all of our column names are clean and our dataframe is ready for an
 The `skim()` function from the `skimr` package gives us a cool overview of the data with one line of code
 
 ```{r, message=FALSE}
+summary(penguins_data)
 skimr::skim(penguins_data)
 ```
 
@@ -134,7 +137,13 @@ What other packages/functions do a similar thing?
 
 -   Type your answer(s) in bullet points below
 
-    -   
+    -   describe, from the Hmisc package
+
+    -   stat.desc from pastecs
+
+    -   describe from psych
+
+    -   descr and dfSummary from summarytools
 
 -   Let's check out `DataExplorer`
 
@@ -174,7 +183,7 @@ The magic of `ggplot2` is simplicity and *customization* so let's customize, bas
 
 ```{r, message=FALSE}
 ggplot(data = penguins_data, aes(x = flipper_length_mm, fill = species)) +
-  geom_histogram() +
+  geom_histogram(alpha = 0.5) +
   theme_bw() +
   scale_fill_manual(values = c("darkorange","darkorchid","cyan4")) +
   labs(title = "Palmer Penguins, Distribution of Flipper Length",
@@ -231,7 +240,9 @@ ggplot(data = penguins_data, aes(x = flipper_length_mm, y = body_mass_g)) +
 Cool! Let's add species to this plot. What about island?
 
 ```{r, message=FALSE}
-
+ggplot(data = penguins_data, aes(x = flipper_length_mm, y = body_mass_g, color = species, shape = island)) +
+  geom_point() +
+  scale_fill_viridis_d()
   
 ```
 
