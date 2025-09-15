@@ -253,7 +253,14 @@ ggplot(data = penguins_data, aes(x = flipper_length_mm, y = body_mass_g, color =
     -   In the code chunk below create a **histogram** with `culmen_depth_mm` on the x axis and `color` by `species` using the dataframe *penguins_data*. Give the plot the theme: `theme_bw()`. Assign a color palette with `scale_fill_viridis_d()`. Give the plot a title, subtitile and custom x and y axis titles.
 
 ```{r, message=FALSE}
- 
+ggplot(data = penguins_data, aes(x = culmen_depth_mm, color = species)) +
+  geom_histogram() +
+  theme_bw() +
+  labs(title = "Palmer Penguins, Distribution of Culmen Depth",
+       subtitle = "3 penguin species observed on three islands in the Palmer Archipelago, Antarctica",
+       x = "culmen depth",
+       y = "count")
+  
 ```
 
 -   Part 2
@@ -261,7 +268,15 @@ ggplot(data = penguins_data, aes(x = flipper_length_mm, y = body_mass_g, color =
     -   In the code chunk below create a **scatterplot** with `culmen_depth_mm` on the x axis, `body_mass_g` on the y axis, and `color` by `species` using the dataframe *penguins_data*. Give the plot the theme: `theme_bw()`. Assign a color palette with `scale_fill_viridis_d(option = "mako")`. Give the plot a title, subtitile and custom x and y axis titles.
 
 ```{r, message=FALSE}
-
+ggplot(data = penguins_data, aes(x = culmen_depth_mm, y = body_mass_g, color = species)) +
+  geom_point() +
+  theme_bw() +
+  scale_fill_viridis_d()+
+  labs(title = "Palmer Penguins, Distribution of Culmen Depth",
+       subtitle = "3 penguin species observed on three islands in the Palmer Archipelago, Antarctica",
+       x = "culmen depth",
+       y = "body mass in grams")
+  
 ```
 
 -   Part 3
@@ -276,6 +291,16 @@ ggplot(data = penguins_data, aes(x = flipper_length_mm, y = body_mass_g, color =
 
 ```{r, message=FALSE}
 
+plot1 <- ggplot(data = penguins_data, aes(x = culmen_depth_mm, y = body_mass_g, color = species)) +
+  geom_point() +
+  theme_bw() +
+  scale_fill_viridis_d()+
+  labs(title = "Palmer Penguins, Distribution of Culmen Depth",
+       subtitle = "3 penguin species observed on three islands in the Palmer Archipelago, Antarctica",
+       x = "culmen depth",
+       y = "body mass in grams")
+
+ggplotly(plot1)
 ```
 
 ## Push to GitHub!
