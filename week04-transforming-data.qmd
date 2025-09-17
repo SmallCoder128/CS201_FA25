@@ -164,8 +164,10 @@ Create a boxplot of body mass by species & make the plot interactive
 -   Hints: `geom_boxplot()`, `ggplotly()`
 
 ```{r, message=FALSE}
-plot4 <- ggplot(data = penguins_data, x = body_mass_g, color )
+plot4 <- ggplot(data = penguins_data, aes(x = species, y = body_mass_g, color = species))+
+  geom_boxplot()
 
+ggplotly(plot4)
 ```
 
 ## Exercise 3
@@ -175,7 +177,12 @@ How many penguins live on each Island?
 -   Hint: There are a few different ways, but you can use `summary()` to start.
 
 ```{r, message=FALSE}
+summary(as.factor(penguins_data$island))
 
+table(penguins_data$island)
+
+penguins_data %>% 
+  count(island)
 
 ```
 
@@ -184,8 +191,15 @@ How many penguins live on each Island?
 Create a dataframe that has the average culmen depth for each species. Then, make a bar plot of the new dataframe with species on the x-axis and average culmen depth on the y-axis
 
 ```{r, message=FALSE}
+average_culmen_depth <- penguins_data %>% 
+  group_by(species) %>% 
+  summarise(average_culmen_depth = mean(culmen_depth_mm, na.rm = TRUE))
 
-
+culmen_plot <- ggplot(data = average_culmen_depth, aes(x= species, y = average_culmen_depth, fill = species)) +
+  geom_bar(stat = "identity")+
+  coord_flip()
+  
+culmen_plot
 ```
 
 ## Push to GitHub!
