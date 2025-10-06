@@ -125,12 +125,44 @@ complete_by_type_service <- teds_d %>%
 
 complete_use_service <- full_join(complete_by_type_service, use_by_type_service, by= "services_d")
 
-complete_use_service_chart <- ggplot(complete_use_service, aes(x = services_d, y = percentage_completed, percentage_no_use))+
-  geom_histogram()
+complete_use_service_alt <- tidyr::pivot_longer(complete_use_service, cols=c("percentage_completed", "percentage_no_use"), names_to="variable", 
+values_to="value") 
 
+complete_use_service_chart <- ggplot(complete_use_service_alt, aes(x = services_d, y = value, fill= variable))+
+  geom_bar(stat="identity", position = "dodge") +
+  theme(axis.text.x = element_text(angle = 45, hjust=1))
+
+complete_use_service_chart
+
+#------------------------------------------
+
+use_by_type_los <- teds_d %>% 
+  group_by(los) %>%
+  summarize(ttl_use = n(), 
+    no_use = sum(freq1_d == "no use", na.rm = TRUE)) %>% 
+  mutate(percentage_no_use = (no_use/ttl_use) * 100)
+
+complete_by_type_los <- teds_d %>% 
+  group_by(los) %>%
+  summarize(total_cases = n(),
+    completed_cases = sum(reason == "Treatment completed", na.rm = TRUE)) %>% 
+  mutate(percentage_completed = (completed_cases / total_cases) * 100)
+
+complete_use_los <- full_join(complete_by_type_los, use_by_type_los, by= "los")
+
+complete_use_los_alt <- tidyr::pivot_longer(complete_use_los, cols=c("percentage_completed", "percentage_no_use"), names_to="variable", 
+values_to="value") 
+
+complete_use_los_chart <- ggplot(complete_use_los_alt, aes(x = los, y = value, fill= variable))+
+  geom_bar(stat="identity", position = "dodge") +
+  theme(axis.text.x = element_text(angle = 45, hjust=1))
+
+complete_use_los_chart
 ```
 
-Summary: (write here)
+Summary: Looking at the graphs that I made I can see that certain reasons (such as 24-hour hospital detox) may expect a significantly shorter stay or may have minimum and maximum requirements resulting in the staggered percentage completed and percentage of non use. These charts also show that the 24 hour treatments are the cause of the disparity in the low length of stay and lower no use relationships.
+
+REMINDER: we talked about only having two charts :)
 
 ## Push to GitHub to Submit!
 
